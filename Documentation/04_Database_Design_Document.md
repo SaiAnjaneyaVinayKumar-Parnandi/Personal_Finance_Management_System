@@ -10,7 +10,7 @@
 | Document Name | 04_Database_Design_Document |
 | Document ID | DOC-004 |
 | Document Version | 1.0 |
-| Document Status | Draft |
+| Document Status | Approved |
 | Author | SaiAnjaneyaVinayKumar Parnandi |
 | Created On | 04-Aug-2026 |
 | Last Updated | 04-Aug-2026 |
