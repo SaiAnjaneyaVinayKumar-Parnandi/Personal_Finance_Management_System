@@ -843,7 +843,7 @@ Maintain bike fuel purchase records for vehicle expense analysis.
 - Fuel Quantity
 - Price Per Litre
 - Total Amount
-- Odometer Reading
+- Trip Kilometer Reading
 - Remarks
 
 #### Validation

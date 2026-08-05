@@ -1004,7 +1004,7 @@ Manage bike fuel purchase records.
 
 - Fuel Date is mandatory.
 - Amount must be greater than zero.
-- Odometer Reading is mandatory.
+- Trip Meter Reading is mandatory.
 
 ---
 
@@ -1034,6 +1034,7 @@ Manage engine oil replacement records.
 
 - Service Date is mandatory.
 - Engine Oil Cost must be greater than zero.
+- Odometer Reading is mandatory.
 
 ---
 
