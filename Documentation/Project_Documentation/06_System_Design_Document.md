@@ -152,6 +152,8 @@ Technology:
 
 The Business Logic Layer implements the core business rules of the Personal Finance Management System (PFMS). It processes financial transactions, validates business rules, manages budgeting, reserve planning, operational logs, and coordinates interactions between different application modules.
 
+The Business Logic Layer is responsible for applying business rules, including financial transaction processing, Salary Boundary Processing, Budget Period determination, and maintaining system-managed financial attributes before persisting data.
+
 Major Business Modules include:
 
 - Master Management

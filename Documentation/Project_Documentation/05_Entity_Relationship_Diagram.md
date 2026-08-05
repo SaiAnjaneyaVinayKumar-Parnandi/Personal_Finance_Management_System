@@ -89,7 +89,7 @@ The following table summarizes the relationships implemented within the PostgreS
 | 7 | `payment_mode` | `financial_transaction` | One-to-Many (1:N) | A Payment Mode can be referenced by multiple Financial Transactions. |
 | 8 | `merchant` | `financial_transaction` | One-to-Many (1:N) | A Merchant can be referenced by multiple Financial Transactions. |
 | 9 | `merchant` | `insurance` | One-to-Many (1:N) | A Merchant can provide multiple Insurance policies. |
-| 10 | `financial_transaction` | `insurance` | One-to-One (1:1) | Each Insurance record may reference its latest Financial Transaction. |
+| 10 | `financial_transaction` | `insurance` | One-to-One (1:1) | Each Insurance record references the latest associated Financial Transaction. |
 | 11 | `merchant` | `investment` | One-to-Many (1:N) | A Merchant can manage multiple Investments. |
 | 12 | `account` | `investment` | One-to-Many (1:N) | An Account can fund multiple Investments. |
 | 13 | `financial_transaction` | `investment` | One-to-One (1:1) | Each Investment record may reference its latest Financial Transaction. |

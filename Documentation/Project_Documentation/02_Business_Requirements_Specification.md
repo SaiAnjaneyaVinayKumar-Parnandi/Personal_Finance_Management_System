@@ -412,7 +412,7 @@ The Functional Requirements under this Business Domain are organized into the fo
 * Account Management
 * Category Management
 * SubCategory Management
-* Payment Type Management
+* Payment Mode Management
 * Merchant Management
 
 
@@ -1237,17 +1237,17 @@ Medium
 The implementation artifacts, including database objects, APIs, backend services, frontend screens, reports, dashboards, and test cases, shall be defined during the subsequent design, development, integration, and testing phases of the project.
 
 
-### Payment Type Management
+### Payment Mode Management
 
-The Payment Type Management module enables users to maintain payment types within the Personal Finance Management System (PFMS).
+The Payment Mode Management module enables users to maintain payment types within the Personal Finance Management System (PFMS).
 
 The module supports recording and maintaining payment types used to identify the payment method associated with financial transactions throughout the application. Every financial transaction recorded within PFMS shall be associated with a valid payment type.
 
-The following Functional Requirements define the complete business capabilities provided by the Payment Type Management module.
+The following Functional Requirements define the complete business capabilities provided by the Payment Mode Management module.
 
 ---
 
-#### FR-MDM-007 – Payment Type Management
+#### FR-MDM-007 – Payment Mode Management
 
 **Requirement Type**
 
@@ -1263,13 +1263,13 @@ Master Data Management
 
 **Business Module**
 
-Payment Type Management
+Payment Mode Management
 
 ---
 
 **Business Feature**
 
-Payment Type Management
+Payment Mode Management
 
 ---
 
@@ -1293,17 +1293,17 @@ The following business information shall be captured while maintaining a payment
 
 | Field               | Mandatory | Description                                                              |
 | ------------------- | --------- | ------------------------------------------------------------------------ |
-| Payment Type Name   | Yes       | Name of the payment type.                                                |
-| Payment Type Status | Yes       | Current status of the payment type (e.g., Active or Inactive).           |
+| Payment Mode Name   | Yes       | Name of the payment type.                                                |
+| Payment Mode Status | Yes       | Current status of the payment type (e.g., Active or Inactive).           |
 | Remarks             | No        | Additional business information or supporting remarks, where applicable. |
 
 ---
 
 **Preconditions**
 
-* Payment Type Name has been provided.
-* Payment Type Status has been specified.
-* Payment Type Name is unique.
+* Payment Mode Name has been provided.
+* Payment Mode Status has been specified.
+* Payment Mode Name is unique.
 
 ---
 
@@ -1323,7 +1323,7 @@ The following business information shall be captured while maintaining a payment
 
 1. Accept the payment type information.
 2. Validate all mandatory information.
-3. Validate the uniqueness of the Payment Type Name.
+3. Validate the uniqueness of the Payment Mode Name.
 4. Apply all applicable Business Rules.
 5. Record a new payment type or update the existing payment type information in accordance with the applicable Business Rules.
 6. Make the payment type available for all applicable business domains.
@@ -1346,7 +1346,7 @@ The user shall be able to maintain payment types used throughout the Personal Fi
 **Exceptions**
 
 * Mandatory payment type information is missing.
-* Duplicate Payment Type Name.
+* Duplicate Payment Mode Name.
 * Unexpected system validation failure.
 
 ---
@@ -1372,7 +1372,7 @@ High
 The implementation artifacts, including database objects, APIs, backend services, frontend screens, reports, dashboards, and test cases, shall be defined during the subsequent design, development, integration, and testing phases of the project.
 
 
-#### FR-MDM-008 – Payment Type Inquiry
+#### FR-MDM-008 – Payment Mode Inquiry
 
 **Requirement Type**
 
@@ -1388,13 +1388,13 @@ Master Data Management
 
 **Business Module**
 
-Payment Type Management
+Payment Mode Management
 
 ---
 
 **Business Feature**
 
-Payment Type Inquiry
+Payment Mode Inquiry
 
 ---
 
@@ -1408,7 +1408,7 @@ User
 
 The system shall enable the user to retrieve and view payment type information within the Personal Finance Management System (PFMS).
 
-Payment Type Inquiry provides read-only access to payment type information and serves as a reference for financial planning, operational activities, financial transaction management, reporting, and reserve management without modifying the underlying payment type records.
+Payment Mode Inquiry provides read-only access to payment type information and serves as a reference for financial planning, operational activities, financial transaction management, reporting, and reserve management without modifying the underlying payment type records.
 
 ---
 
@@ -1418,8 +1418,8 @@ The following business information shall be used while retrieving payment type i
 
 | Field               | Mandatory | Description                                   |
 | ------------------- | --------- | --------------------------------------------- |
-| Payment Type Name   | No        | Retrieves a specific payment type.            |
-| Payment Type Status | No        | Filters payment types by Payment Type Status. |
+| Payment Mode Name   | No        | Retrieves a specific payment type.            |
+| Payment Mode Status | No        | Filters payment types by Payment Mode Status. |
 
 ---
 
@@ -1458,8 +1458,8 @@ The system shall display the following information.
 
 | Information         | Description                                       |
 | ------------------- | ------------------------------------------------- |
-| Payment Type Name   | Name of the payment type.                         |
-| Payment Type Status | Current status of the payment type.               |
+| Payment Mode Name   | Name of the payment type.                         |
+| Payment Mode Status | Current status of the payment type.               |
 | Remarks             | Additional business information, where available. |
 
 ---
@@ -7702,11 +7702,25 @@ Every Financial Transaction shall belong to one and only one Budget Period. A Bu
 
 The Salary Boundary shall remain the logical separator between consecutive Budget Periods and shall govern the assignment of Financial Transactions to the appropriate Budget Period.
 
-Only one Salary Boundary shall exist for a Budget Period unless explicitly permitted by the applicable Historical Financial Processing rules.
+When a Financial Transaction is designated as the Salary Boundary (`is_salary_boundary = 'Y'`), the system shall automatically establish the next Budget Period. The assigned `budget_month` and `budget_year` shall represent the salary utilization period rather than the calendar month and year of the Salary Boundary transaction date.
+
+All Financial Transactions recorded after a Salary Boundary transaction shall automatically inherit the corresponding Budget Month and Budget Year until the next Salary Boundary transaction establishes a new Budget Period.
+
+Only one Salary Boundary transaction shall exist for a Budget Period unless explicitly permitted by the applicable Historical Financial Processing rules.
 
 The assigned Budget Period shall remain associated with the Financial Transaction unless modified in accordance with the applicable Historical Financial Processing and Salary Boundary Modification rules.
 
 Any business operation affecting the Salary Boundary shall comply with the applicable Global Business Rules (GBR), General Business Rules (GEN), Functional Business Rules (FBR), and Module Functional Business Rules (MFBR) before completion.
+
+##### Example
+
+| Transaction Date | is_salary_boundary | Budget Month | Budget Year | Remarks |
+|------------------|--------------------|--------------|-------------|---------|
+| 25-Aug-2026 | Y | 9 | 2026 | Establishes the September 2026 Budget Period. |
+| 28-Aug-2026 | N | 9 | 2026 | Inherits the September 2026 Budget Period. |
+| 10-Sep-2026 | N | 9 | 2026 | Inherits the September 2026 Budget Period. |
+| 24-Sep-2026 | N | 9 | 2026 | Inherits the September 2026 Budget Period. |
+| 25-Sep-2026 | Y | 10 | 2026 | Establishes the October 2026 Budget Period. |
 
 
 #### FBR-004 – Financial Chronology

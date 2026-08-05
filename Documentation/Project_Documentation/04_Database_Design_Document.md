@@ -906,7 +906,7 @@ None.
 - The combination of `budget_year`, `budget_month`, `category_id`, and `sub_category_id` shall be enforced as unique through the `uq_budget_period_category_sub_category` constraint.
 - The `budget_month` value shall be restricted to values between **1** and **12**.
 - Budget allocations shall represent planning information only and shall not restrict Financial Transaction processing.
-- Budget utilization shall be calculated through database views by aggregating Financial Transactions for the corresponding Budget Period.
+- Budget utilization shall be calculated through database views by aggregating Financial Transactions for the corresponding Budget Month and Budget Year as determined by the Salary Boundary Processing business rules.
 - The `budget` table shall store only planning information and shall not maintain historical Financial Transactions.
 - Foreign Key relationships shall preserve referential integrity throughout the database.
 
@@ -1156,7 +1156,7 @@ The table stores only the latest loan information. Historical loan repayments sh
 | roi | NUMERIC(5,2) | Yes | No | NULL | Current Rate of Interest (ROI) applicable to the loan. |
 | emi_amount | NUMERIC(12,2) | No | No | 0.00 | Current Equated Monthly Installment (EMI) amount payable. |
 | payment_frequency | VARCHAR(50) | No | No | 'Monthly' | Loan repayment frequency (Monthly, Quarterly, Half-Yearly, Yearly). |
-| is_auto_payment | BOOLEAN | No | No | FALSE | Indicates whether loan repayments are configured for automatic payment. |
+| is_auto_debit | BOOLEAN | No | No | FALSE | Indicates whether loan repayments are configured for automatic payment. |
 | start_date | DATE | No | No | - | Loan commencement date. |
 | end_date | DATE | Yes | No | NULL | Expected loan completion date. |
 | last_payment_date | DATE | Yes | No | NULL | Date on which the most recent loan repayment was made. |
@@ -1199,7 +1199,7 @@ None.
 | roi | NULL |
 | emi_amount | 0.00 |
 | payment_frequency | 'Monthly' |
-| is_auto_payment | FALSE |
+| is_auto_debit | FALSE |
 | end_date | NULL |
 | last_payment_date | NULL |
 | next_due_date | NULL |
@@ -1962,8 +1962,8 @@ The table stores only generic financial information. Business-specific informati
 | transaction_id | BIGINT | No | GENERATED ALWAYS AS IDENTITY | - | Unique identifier of the Financial Transaction. |
 | transaction_date | DATE | No | No | - | Date on which the Financial Transaction occurred. |
 | is_salary_boundary | CHAR(1) | No | No | 'N' | Indicates whether the transaction represents the Salary Boundary ('Y' or 'N'). |
-| budget_month | SMALLINT | No | No | - | Budget Month associated with the Financial Transaction (1-12). |
-| budget_year | INTEGER | No | No | - | Budget Year associated with the Financial Transaction. |
+| budget_month | SMALLINT | No | No | - | Automatically assigned according to Salary Boundary Processing. |
+| budget_year | INTEGER | No | No | - | Automatically assigned according to Salary Boundary Processing. |
 | account_id | BIGINT | No | No | - | References the Account associated with the Financial Transaction. |
 | category_id | BIGINT | No | No | - | References the associated Category. |
 | sub_category_id | BIGINT | No | No | - | References the associated SubCategory. |

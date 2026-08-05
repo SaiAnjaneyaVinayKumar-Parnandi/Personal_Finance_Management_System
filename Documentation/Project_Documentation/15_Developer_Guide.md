@@ -103,7 +103,16 @@ Database development guidelines include:
 - Use indexes appropriately.
 - Validate constraints before deployment.
 
----
+### Financial Transaction Processing
+
+The backend shall automatically determine and assign the applicable Budget Month and Budget Year for every Financial Transaction in accordance with the Salary Boundary Processing business rules defined in the Business Requirements Specification (BRS).
+
+When a Financial Transaction is designated as a Salary Boundary (`is_salary_boundary = 'Y'`), the system shall establish the next Budget Period. The assigned `budget_month` and `budget_year` shall represent the salary utilization period rather than the calendar month and year of the Transaction Date.
+
+All subsequent Financial Transactions shall automatically inherit the applicable Budget Month and Budget Year until the next Salary Boundary transaction establishes a new Budget Period.
+
+The backend shall maintain `current_balance`, `budget_month`, `budget_year`, and other system-maintained fields. User interfaces, APIs, and external integrations shall not calculate or assign these values.
+
 
 ## API Development
 

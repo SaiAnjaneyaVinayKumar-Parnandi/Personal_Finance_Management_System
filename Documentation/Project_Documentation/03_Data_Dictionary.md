@@ -119,7 +119,7 @@ Database tables shall:
 - category
 - merchant
 - budget
-- transaction
+- financial_transaction
 - hard_cash_wallet
 - milk_purchase_log
 - bike_fuel_log
@@ -179,7 +179,7 @@ Database columns shall:
 - transaction_date
 - budget_month
 - budget_year
-- payment_type
+- payment_mode
 - merchant_id
 - account_id
 - description
@@ -733,7 +733,8 @@ The Budget table supports Financial Planning, Budget monitoring, variance analys
 | Column Name | Data Type | Length | Nullable | PK | FK | Unique | Default | Description |
 |--------------|-----------|--------|----------|----|----|--------|---------|-------------|
 | budget_id | BIGSERIAL | - | No | Yes | No | Yes | Auto Generated | Unique identifier of the Budget. |
-| budget_month | DATE | - | No | No | No | No | - | Represents the Budget Month. The first day of the month shall be stored (e.g., 2026-08-01). |
+| budget_month | smallint | - | No | No | No | No | - | Represents the Budget Month. |
+| budget_year | int | - | No | No | No | No | - | Represents the Budget Year.  |
 | category_id | BIGINT | - | No | No | Yes | No | - | References the associated Category. |
 | subcategory_id | BIGINT | - | No | No | Yes | No | - | References the associated SubCategory. |
 | budget_amount | NUMERIC | 12,2 | No | No | No | No | 0.00 | Planned Budget Amount for the specified Category and SubCategory. |
@@ -926,7 +927,7 @@ The Loan table supports loan repayment planning, EMI tracking, payment monitorin
 | roi | NUMERIC | 5,2 | Yes | No | No | No | NULL | Current Rate of Interest (ROI) applicable to the Loan. |
 | emi_amount | NUMERIC | 12,2 | No | No | No | No | 0.00 | Current Equated Monthly Installment (EMI) amount payable. |
 | payment_frequency | VARCHAR | 50 | No | No | No | No | Monthly | Loan repayment frequency (Monthly, Quarterly, Half-Yearly, Yearly). |
-| is_auto_payment | BOOLEAN | - | No | No | No | No | FALSE | Indicates whether Loan repayments are configured for automatic payment. |
+| is_auto_debit | BOOLEAN | - | No | No | No | No | FALSE | Indicates whether Loan repayments are configured for automatic payment. |
 | start_date | DATE | - | No | No | No | No | - | Loan commencement date. |
 | end_date | DATE | - | Yes | No | No | No | NULL | Expected Loan completion date. This date may change due to changes in ROI or early Loan closure. |
 | last_payment_date | DATE | - | Yes | No | No | No | NULL | Most recent Loan repayment date. |
@@ -1507,7 +1508,7 @@ The FinancialTransaction table references the following Master Tables through Fo
 - Merchant shall be optional and shall be maintained only when applicable.
 - Transaction Type shall be restricted to **Credit** or **Debit**.
 - Amount shall be greater than zero.
-- Budget Month and Budget Year shall be mandatory for every FinancialTransaction.
+- Budget Month and Budget Year shall be automatically derived and assigned in accordance with the Salary Boundary Processing business rules. These values shall represent the applicable Budget Period (salary utilization period) associated with the Financial Transaction and shall not necessarily correspond to the calendar month and year of the Transaction Date.
 - Only one Salary Boundary FinancialTransaction shall exist for a Budget Cycle in accordance with the applicable Module Functional Business Rules.
 - Current Balance shall be maintained automatically by PFMS and shall not be manually modified.
 - Description shall be optional and may be used to capture additional information regarding the Financial Transaction.
