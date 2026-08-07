@@ -212,6 +212,9 @@ create table if not exists engine_oil_log
 (
     engine_oil_log_id bigint generated always as identity,
     odometer_reading numeric(8, 2) not null,
+    oil_change_interval_km numeric(8, 2) default null,
+    next_oil_change_odometer_reading numeric(8, 2) 
+    generated always as (odometer_reading + oil_change_interval_km) stored
     transaction_id bigint default null
 );
 
@@ -267,7 +270,6 @@ create table if not exists reserve_transaction
 (
     reserve_transaction_id bigint generated always as identity,
     reserve_cycle_no bigint not null,
-    account_id bigint not null,
     transaction_id bigint not null,
     remarks varchar(500) default null
 );
