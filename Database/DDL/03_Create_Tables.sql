@@ -214,7 +214,7 @@ create table if not exists engine_oil_log
     odometer_reading numeric(8, 2) not null,
     oil_change_interval_km numeric(8, 2) default null,
     next_oil_change_odometer_reading numeric(8, 2) 
-    generated always as (odometer_reading + oil_change_interval_km) stored
+    generated always as (odometer_reading + oil_change_interval_km) stored,
     transaction_id bigint default null
 );
 
